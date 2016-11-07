@@ -44,15 +44,14 @@ trait HasTaxonomies
         //@todo Return
         $this->createTaxables($terms, $taxonomy, $parent, $order);
 
-        $terms = Term::whereIn('id', $terms)->pluck('id')->all();
+        $taxonomies = Taxonomy::whereIn('term_id', $terms)->where('taxonomy', $taxonomy)->get();
 
-        if (count($terms) > 0) {
-            foreach ($terms as $term) {
-                if ($this->taxonomies()->where('taxonomy', $taxonomy)->where('term_id', $term)->first())
+        if (count($taxonomies) > 0) {
+            foreach ($taxonomies as $taxonomy) {
+                if ($this->taxonomies()->where('taxonomy_id', $taxonomy->id)->first())
                     continue;
 
-                $tax = Taxonomy::where('term_id', $term)->first();
-                $this->taxonomies()->attach($tax->id);
+                $this->taxonomies()->attach($taxonomy->id);
             }
 
             return;
