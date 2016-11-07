@@ -1,0 +1,53 @@
+{
+    "name": "bobo/laravel-taxonomies",
+    "description": "Simple, nestable Terms & Taxonomies (similar to WordPress) for Laravel 5.",
+    "homepage" : "https://github.com/duynguyenhoang/laravel-taxonomies",
+    "license": "MIT",
+    "keywords": [
+        "taxonomies",
+        "terms",
+        "categories",
+        "nestable",
+        "eloquent",
+        "model",
+        "translatable",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name"     : "Duy Nguyen",
+            "homepage" : "https://linkedin.com/in/duynguyenhoang",
+            "role"     : "developer"
+        },
+        {
+            "name"     : "Alexander Manfred Poellmann",
+            "homepage" : "http://twitter.com/AMPoellmann",
+            "role"     : "developer"
+        }
+    ],
+    "require": {
+        "php"                 : ">=5.6.4",
+        "doctrine/dbal"       : "2.5.x",
+        "illuminate/support"  : ">=5.3",
+        "illuminate/database" : ">=5.3",
+        "cviebrock/eloquent-sluggable" : "^4.1.0",
+        "dimsav/laravel-translatable": "6.*"
+    },
+    "require-dev": {
+        "mockery/mockery" : "0.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bobo\\Taxonomies\\" : "src/"
+        }
+    },
+    "extra": {
+        "branch-alias" : {
+            "dev-master" : "0.0.x-dev"
+        }
+    },
+    "support" : {
+        "source" : "https://github.com/duynguyenhoang/laravel-taxonomies",
+        "issues" : "https://github.com/duynguyenhoang/laravel-taxonomies/issues"
+    }
+}

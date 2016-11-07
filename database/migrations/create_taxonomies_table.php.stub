@@ -1,0 +1,97 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+/**
+ * Class TaxonomiesTable
+ */
+class CreateTaxonomiesTable extends Migration
+{
+    /**
+     * @var string $tableTerms      The terms table name.
+     * @var string $tableTaxonomies The taxonomies table name.
+     * @var string $tablePivot      The pivot table name.
+     */
+    private $tableTerms;
+    private $tableTermTranslation;
+    private $tableTaxonomies;
+    private $tablePivot;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tableTerms                = config('taxonomies.table_terms',      'terms');
+        $this->tableTermTranslation      = config('taxonomies.table_term_translation',      'term_translations');
+        $this->tableTaxonomies           = config('taxonomies.table_taxonomies', 'taxonomies');
+        $this->tablePivot                = config('taxonomies.table_pivot',      'taxables');
+    }
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create($this->tableTerms, function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create($this->tableTermTranslation, function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('term_id')->unsigned();
+            $table->string('name');
+            $table->string('slug');
+
+            $table->string('locale')->index();
+
+            $table->unique(['term_id','locale']);
+            $table->unique(['name','locale']);
+            $table->foreign('term_id')->references('id')->on($this->tableTerms)->onDelete('cascade');
+        });
+
+        Schema::create($this->tableTaxonomies, function(Blueprint $table)
+        {
+	        $table->increments('id');
+
+            $table->integer('term_id')->unsigned()->index();
+            $table->foreign('term_id')
+                ->references('id')
+                ->on($this->tableTerms)
+                ->onDelete('cascade');
+            $table->string('taxonomy');
+            $table->string('description')->nullable();
+            $table->integer('parent')->unsigned()->default(0);
+            $table->smallInteger('sort')->unsigned()->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create($this->tablePivot, function(Blueprint $table)
+        {
+            $table->integer('taxonomy_id')->unsigned()->index();
+            $table->integer('taxable_id')->unsigned()->index();
+            $table->string('taxable_type')->unsigned();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists($this->tablePivot);
+        Schema::dropIfExists($this->tableTaxonomies);
+        Schema::dropIfExists($this->tableTermTranslation);
+        Schema::dropIfExists($this->tableTerms);
+    }
+}
