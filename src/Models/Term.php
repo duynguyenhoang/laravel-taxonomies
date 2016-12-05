@@ -26,15 +26,6 @@ class Term extends Model
 	protected $table = 'terms';
 
 	/**
-     * @todo make this editable via config file
-	 * @inheritdoc
-	 */
-	protected $fillable = [
-		'name',
-		'slug',
-	];
-
-	/**
 	 * @inheritdoc
 	 */
 	protected $dates = ['deleted_at'];

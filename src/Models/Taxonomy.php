@@ -25,7 +25,7 @@ class Taxonomy extends Model
     protected $fillable = [
         'term_id',
         'taxonomy',
-        'desc',
+        'description',
         'parent',
         'sort',
     ];

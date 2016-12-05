@@ -48,9 +48,9 @@ class TaxonomiesServiceProvider extends ServiceProvider
     {
         $configPath = __DIR__ . '/../config/config.php';
 
-        $this->publishes([$configPath => config_path('lecturize.php')]);
+        $this->publishes([$configPath => config_path('taxonomy.php')]);
 
-        $this->mergeConfigFrom($configPath, 'lecturize');
+        $this->mergeConfigFrom($configPath, 'taxonomy');
     }
 
     /**

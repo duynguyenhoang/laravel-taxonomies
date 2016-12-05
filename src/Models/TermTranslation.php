@@ -13,6 +13,17 @@ class TermTranslation extends Model
 {
 	use Sluggable;
 
+    public $timestamps = false;
+
+    /**
+     * @todo make this editable via config file
+     * @inheritdoc
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
+
 	/**
 	 * Return the sluggable configuration array for this model.
 	 *
