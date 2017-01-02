@@ -79,9 +79,6 @@ trait HasTaxonomies
     {
         $terms = TaxableUtils::makeTermsArray($terms);
 
-        //@todo Support adding term
-//        $terms = TaxableUtils::createTerms($terms);
-
         return TaxableUtils::createTaxonomies($terms, $taxonomy, $parent, $order);
     }
 
@@ -96,15 +93,26 @@ trait HasTaxonomies
 
     /**
      * @param string $taxonomy
-     * @return Collection
+     * @return array
      */
-    public function getTerms($taxonomy = '')
+    public function getTermIds($taxonomy = '')
     {
         if ($taxonomy) {
             $termIds = $this->taxonomies->where('taxonomy', $taxonomy)->pluck('term_id');
         } else {
             $termIds = $this->getTaxonomies('term_id');
         }
+
+        return $termIds;
+    }
+
+    /**
+     * @param string $taxonomy
+     * @return Collection
+     */
+    public function getTerms($taxonomy = '')
+    {
+        $termIds = $this->getTermIds($taxonomy);
 
         return Term::whereIn('id', $termIds)->get();
     }
